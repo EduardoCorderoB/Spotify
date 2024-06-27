@@ -1,167 +1,126 @@
+# Report for Assignment 1
 
-<!--- mdformat-toc start --slug=github --->
+## Project chosen
 
-<!---
-!!! IF EDITING THE README, ENSURE TO COPY THE WHOLE FILE TO index.md in `/docs/` AND REMOVE THE REFERENCES TO ReadTheDocs THERE.
---->
+Name: Spotify Downloader
 
-<div align="center">
+URL: [Shttps://github.com/spotDL/spotify-downloader](https://github.com/spotDL/spotify-downloader)
 
-# spotDL v4
+Number of lines of code and the tool used to count it: Lizard counted 95 KLOC
 
-**spotDL** finds songs from Spotify playlists on YouTube and downloads them - along with album art, lyrics and metadata.
+Programming language: Python
 
+## Coverage measurement
 
-[![MIT License](https://img.shields.io/github/license/spotdl/spotify-downloader?color=44CC11&style=flat-square)](https://github.com/spotDL/spotify-downloader/blob/master/LICENSE)
-[![PyPI version](https://img.shields.io/pypi/pyversions/spotDL?color=%2344CC11&style=flat-square)](https://pypi.org/project/spotdl/)
-[![PyPi downloads](https://img.shields.io/pypi/dw/spotDL?label=downloads@pypi&color=344CC11&style=flat-square)](https://pypi.org/project/spotdl/)
-![Contributors](https://img.shields.io/github/contributors/spotDL/spotify-downloader?style=flat-square)
-[![Discord](https://img.shields.io/discord/771628785447337985?label=discord&logo=discord&style=flat-square)](https://discord.gg/xCa23pwJWY)
+### Existing tool
 
-> spotDL: The fastest, easiest and most accurate command-line music downloader.
-</div>
+We used Coverage.py for our test and we ran "coverage run pytest", then "coverage report" to get the table bellow.
 
-______________________________________________________________________
-**[Read the documentation on ReadTheDocs!](https://spotdl.readthedocs.io)**
-______________________________________________________________________
+![alt text](image.png)
 
+### Your own coverage tool
 
-## Installation
+<The following is supposed to be repeated for each group member>
 
-Refer to our [Installation Guide](https://spotdl.rtfd.io/en/latest/installation/) for more details.
+Erik Doytchinov
 
-### Python (Recommended Method)
-  - _spotDL_ can be installed by running `pip install spotdl`.
-  - To update spotDL run `pip install --upgrade spotdl`
+yt_dlp_progress_hook()
 
-  > On some systems you might have to change `pip` to `pip3`.
+![alt text](erik-img-1.png)
 
-<details>
-    <summary style="font-size:1.25em"><strong>Other options</strong></summary>
+![alt text](erik-img-2.png)
 
-- Prebuilt executable
-  - You can download the latest version from the
-    [Releases Tab](https://github.com/spotDL/spotify-downloader/releases)
-- On Termux
-  - `curl -L https://raw.githubusercontent.com/spotDL/spotify-downloader/master/scripts/termux.sh | sh`
-- Arch
-  - There is an [Arch User Repository (AUR) package](https://aur.archlinux.org/packages/python-spotdl/) for
-    spotDL.
-- Docker
-  - Build image:
+notify_error()
 
-    ```bash
-    docker build -t spotdl .
-    ```
+![alt text](erik-img-3.png)
 
-  - Launch container with spotDL parameters (see section below). You need to create mapped
-    volume to access song files
+![alt text](erik-img-4.png)
 
-    ```bash
-    docker run --rm -v $(pwd):/music spotdl download [trackUrl]
-    ```
+Ongun Manav
 
- - Build from source
-	```bash
-	git clone https://github.com/spotDL/spotify-downloader && cd spotify-downloader
-	pip install poetry
-	poetry install
-	poetry run python3 scripts/build.py
-	```
-	An executable is created in `spotify-downloader/dist/`.
+get_status()
 
-</details>
+![alt text](ongun-img5.png)
+
+![alt text](ongun-img8.png)
+
+format()
+
+![alt text](ongun-img6.png)
+
+![alt text](ongun-img7.png)
 
 
-### Installing FFmpeg
+## Coverage improvement
 
-FFmpeg is required for spotDL. If using FFmpeg only for spotDL, you can simply install FFmpeg to your spotDL installation directory:
-`spotdl --download-ffmpeg`
+### Individual tests
 
-We recommend the above option, but if you want to install FFmpeg system-wide,
-follow these instructions
+Erik Doytchinov
 
-- [Windows Tutorial](https://windowsloop.com/install-ffmpeg-windows-10/)
-- OSX - `brew install ffmpeg`
-- Linux - `sudo apt install ffmpeg` or use your distro's package manager
+test_yt_dlp_progress_hook()
 
-## Usage
+![alt text](erik-img-5.png)
 
-Using SpotDL without options::
-```sh
-spotdl [urls]
-```
-You can run _spotDL_ as a package if running it as a script doesn't work:
-```sh
-python -m spotdl [urls]
-```
+![alt text](erik-img-6.png)
 
-General usage:
-```sh
-spotdl [operation] [options] QUERY
-```
+![alt text](erik-img-7.png)
 
-There are different **operations** spotDL can perform. The *default* is `download`, which simply downloads the songs from YouTube and embeds metadata.
+Added a test scanario that covers the missing branch, in the case that no file byte size is included.
 
-The **query** for spotDL is usually a list of Spotify URLs, but for some operations like **sync**, only a single link or file is required.
-For a list of all **options** use ```spotdl -h```
+notify_error()
 
-<details>
-<summary style="font-size:1em"><strong>Supported operations</strong></summary>
+![alt text](erik-img-8.png)
 
-- `save`: Saves only the metadata from Spotify without downloading anything.
-    - Usage:
-        `spotdl save [query] --save-file {filename}.spotdl`
+![alt text](erik-img-9.png)
 
-- `web`: Starts a web interface instead of using the command line. However, it has limited features and only supports downloading single songs.
+![alt text](erik-img-10.png)
 
-- `url`: Get direct download link for each song from the query.
-    - Usage:
-        `spotdl url [query]`
+At first there was no test coverage at all but now all branches are covered.
 
-- `sync`: Updates directories. Compares the directory with the current state of the playlist. Newly added songs will be downloaded and removed songs will be deleted. No other songs will be downloaded and no other files will be deleted.
+Ongun Manav
 
-    - Usage:
-        `spotdl sync [query] --save-file {filename}.spotdl`
+get_status()
 
-        This create a new **sync** file, to update the directory in the future, use:
+![alt text](ongun-img9.png)
 
-        `spotdl sync {filename}.spotdl`
+![alt text](ongun-img1.png)
 
-- `meta`: Updates metadata for the provided song files.
-</details>
+![alt text](ongun-img2.png)
 
-## Music Sourcing and Audio Quality
+Initially the nested if branch was not run, now with the added test for status code 403, it is covered, increasing the coverage form %87.1 to %100
 
-spotDL uses YouTube as a source for music downloads. This method is used to avoid any issues related to downloading music from Spotify.
+format()
 
-> **Note**
-> Users are responsible for their actions and potential legal consequences. We do not support unauthorized downloading of copyrighted material and take no responsibility for user actions.
+![alt text](ongun-img10.png)
 
-### Audio Quality
+![alt text](ongun-img3.png)
 
-spotDL downloads music from YouTube and is designed to always download the highest possible bitrate; which is 128 kbps for regular users and 256 kbps for YouTube Music premium users.
+![alt text](ongun-img4.png)
 
-Check the [Audio Formats](docs/usage.md#audio-formats-and-quality) page for more info.
+Initially no branch was not covered, now with the new parameters added to the map, increasing the coverage form %4.3 to %91.3
 
-## Contributing
+<Group member name>
 
-Interested in contributing? Check out our [CONTRIBUTING.md](docs/CONTRIBUTING.md) to find
-resources around contributing along with a guide on how to set up a development environment.
+<Test 1>
 
-#### Join our amazing community as a code contributor, and help accelerate
-<br><br>
-<a href="https://github.com/spotDL/spotify-downloader/graphs/contributors">
-  <img class="dark-light" src="https://contrib.rocks/image?repo=spotDL/spotify-downloader&anon=0&columns=25&max=100&r=true" />
-</a>
-## Donate
+<Show a patch (diff) or a link to a commit made in your forked repository that shows the new/enhanced test>
 
-help support the development and maintenance of the software ❤️
+<Provide a screenshot of the old coverage results (the same as you already showed above)>
 
-[![paypal](https://img.shields.io/badge/paypal-%2300457C.svg?&style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/kko7)
-[![kofi](https://img.shields.io/badge/kofi-%23F16061.svg?&style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/xnetcat)
+<Provide a screenshot of the new coverage results>
 
-## License
+<State the coverage improvement with a number and elaborate on why the coverage is improved>
 
-This project is Licensed under the [MIT](/LICENSE) License.
+<Test 2>
 
+<Provide the same kind of information provided for Test 1>
+
+### Overall
+
+<Provide a screenshot of the old coverage results by running an existing tool (the same as you already showed above)>
+
+<Provide a screenshot of the new coverage results by running the existing tool using all test modifications made by the group>
+
+## Statement of individual contributions
+
+<Write what each group member did>

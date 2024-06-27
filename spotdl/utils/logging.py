@@ -13,6 +13,9 @@ from rich.text import Text
 from rich.theme import Theme
 from rich.traceback import install
 
+import tests.instrumentation as instrumentation
+
+
 __all__ = [
     "CRITICAL",
     "FATAL",
@@ -100,21 +103,27 @@ class SpotdlFormatter(logging.Formatter):
 
         msg = result
         if record.levelno == DEBUG:
+            instrumentation.coverage_dict["branch-2003"] = True
             msg = f"[blue]{result}"
 
         if record.levelno == MATCH:
+            instrumentation.coverage_dict["branch-2004"] = True
             msg = f"[magenta]{result}"
 
         if record.levelno == INFO:
+            instrumentation.coverage_dict["branch-2005"] = True
             msg = f"[green]{result}"
 
         if record.levelno == WARNING:
+            instrumentation.coverage_dict["branch-2006"] = True
             msg = f"[yellow]{result}"
 
         if record.levelno == ERROR:
+            instrumentation.coverage_dict["branch-2007"] = True
             msg = f"[red]{result}"
 
         if record.levelno == CRITICAL:
+            instrumentation.coverage_dict["branch-2008"] = True
             msg = f"[bold red]{result}"
 
         return msg

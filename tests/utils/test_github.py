@@ -8,7 +8,17 @@ from spotdl.utils.github import (
     download_github_dir,
     get_status,
 )
-
+import tests.instrumentation as instrumentation
+from unittest.mock import patch
+from spotdl import _version
+from spotdl.utils.github import (
+    WEB_APP_URL,
+    check_for_updates,
+    create_github_url,
+    download_github_dir,
+    get_status,
+    RateLimitError,
+)
 
 @pytest.mark.vcr()
 def test_get_status():
@@ -52,3 +62,20 @@ def test_download_github_dir(tmpdir, monkeypatch):
     download_dir = tmpdir.listdir()[0]
     assert download_dir.isdir() is True
     assert download_dir.join("index.html").isfile() is True
+
+####################################################
+
+
+@pytest.mark.vcr()
+@patch('spotdl.utils.github.requests.get')
+def test_get_status_rate_limit(mock_get):
+    mock_get.return_value.status_code = 403
+    try:
+        get_status("master", "dev", "spotdl/spotify-downloader")
+        instrumentation.print_coverage_dict(["branch-2001", "branch-2002"])
+        assert False
+    except RateLimitError:
+        instrumentation.print_coverage_dict(["branch-2001", "branch-2002"])
+        assert True
+
+
